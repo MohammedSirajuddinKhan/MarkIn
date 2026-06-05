@@ -1,0 +1,31 @@
+# Node modules
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Uploads
+uploads/*
+!uploads/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Test files
+test_app.js
+run_tests.bat
+TESTING_REPORT.md
+
+# Database files
+*.sql
+Student_details_db.txt
+Teacher_details_db.txt
+*.db
+*.sqlite

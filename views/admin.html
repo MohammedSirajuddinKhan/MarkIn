@@ -1,0 +1,2693 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MarkIn · Admin Console</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+
+  <body>
+    <div class="shell">
+      <aside class="sidebar-panel">
+        <div class="brand" style="margin-bottom: 2rem">
+          <div class="brand-mark">MI</div>
+          <div>
+            <h1>MarkIn</h1>
+            <p class="tagline">Admin Console</p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem">
+          <h3>Import Checklist</h3>
+          <ul class="import-steps" data-import-steps>
+            <li class="import-step" data-step="1">
+              <span class="step-indicator">
+                <span class="step-number">1</span>
+                <span class="step-check">✓</span>
+              </span>
+              <span class="step-label">Import Students</span>
+            </li>
+            <li class="import-step" data-step="2">
+              <span class="step-indicator">
+                <span class="step-number">2</span>
+                <span class="step-check">✓</span>
+              </span>
+              <span class="step-label">Import Teachers</span>
+            </li>
+            <li class="import-step" data-step="3">
+              <span class="step-indicator">
+                <span class="step-number">3</span>
+                <span class="step-check">✓</span>
+              </span>
+              <span class="step-label">Confirm Import</span>
+            </li>
+          </ul>
+        </div>
+
+        <button
+          class="btn secondary"
+          data-change-password
+          title="Change admin password"
+          style="margin-top: 1rem; width: 100%; padding: 0.75rem 1rem"
+        >
+          Change Password
+        </button>
+      </aside>
+
+      <main class="content-panel layout-grid" style="gap: 1.5rem">
+        <header class="header" style="padding: 0">
+          <div>
+            <h2>Admin Dashboard</h2>
+            <p class="tagline">Manage college-wide attendance securely</p>
+          </div>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap">
+            <button class="btn secondary" data-view-history>
+              View History
+            </button>
+            <button
+              class="btn secondary"
+              data-refresh-mappings
+              title="Update student-teacher mappings"
+            >
+              Refresh Mappings
+            </button>
+            <button
+              class="btn ghost"
+              data-delete-data
+              style="color: #dc3545; border-color: #dc3545"
+            >
+              Delete Data
+            </button>
+            <button class="btn ghost" data-refresh-dashboard>Refresh</button>
+            <a href="/" class="btn ghost" data-signout>Sign out</a>
+          </div>
+        </header>
+
+        <!-- Search Bar -->
+        <div class="card" style="padding: 1rem">
+          <div style="display: flex; gap: 0.75rem; align-items: center">
+            <div style="flex: 1; position: relative">
+              <input
+                type="text"
+                id="adminSearchInput"
+                placeholder="Search: Student/Teacher ID, Name, Roll No, Subject..."
+                style="
+                  width: 100%;
+                  padding: 0.75rem 1rem;
+                  border: 1px solid #ddd;
+                  border-radius: 8px;
+                  font-size: 0.95rem;
+                "
+              />
+            </div>
+            <button class="btn" data-search-btn style="padding: 0.75rem 1.5rem">
+              Search
+            </button>
+          </div>
+        </div>
+
+        <section
+          class="layout-grid"
+          style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))"
+          data-dashboard-panels
+        >
+          <div class="card" style="cursor: pointer" data-stat-card="students">
+            <div class="stat">
+              <span class="stat-label">Total Students</span>
+              <span class="stat-value" data-stat="students">0</span>
+            </div>
+          </div>
+          <div class="card" style="cursor: pointer" data-stat-card="teachers">
+            <div class="stat">
+              <span class="stat-label">Total Teachers</span>
+              <span class="stat-value" data-stat="teachers">0</span>
+            </div>
+          </div>
+          <div
+            class="card"
+            style="cursor: pointer"
+            data-stat-card="current-sessions"
+          >
+            <div class="stat">
+              <span class="stat-label">Current Sessions</span>
+              <span class="stat-value" data-stat="currentSessions">0</span>
+            </div>
+          </div>
+          <div class="card" style="cursor: pointer" data-stat-card="streams">
+            <div class="stat">
+              <span class="stat-label">Streams</span>
+              <span class="stat-value" data-stat="streams">0</span>
+            </div>
+          </div>
+          <div class="card" style="cursor: pointer" data-stat-card="subjects">
+            <div class="stat">
+              <span class="stat-label">Subjects</span>
+              <span class="stat-value" data-stat="subjects">0</span>
+            </div>
+          </div>
+          <div class="card" style="cursor: pointer" data-stat-card="divisions">
+            <div class="stat">
+              <span class="stat-label">Divisions</span>
+              <span class="stat-value" data-stat="divisions">0</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" data-import-section>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              gap: 1rem;
+              flex-wrap: wrap;
+            "
+          >
+            <div>
+              <h3>Bulk Import</h3>
+              <p class="tagline">
+                Upload Excel/CSV sheets directly into the database
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap">
+              <button class="btn secondary" data-download-template="students">
+                Export Students
+              </button>
+              <button class="btn secondary" data-download-template="teachers">
+                Export Teachers
+              </button>
+              <button
+                class="btn"
+                data-generate-defaulters
+                style="background: #e74c3c; border-color: #e74c3c"
+              >
+                Generate Defaulter List
+              </button>
+              <button class="btn secondary" data-view-admin-defaulter-history>
+                Defaulter History
+              </button>
+            </div>
+          </div>
+
+          <div class="layout-grid two" style="margin-top: 1.5rem">
+            <form
+              class="card"
+              style="box-shadow: none; border-style: dashed"
+              data-upload-form="students"
+            >
+              <h3>Import Students</h3>
+              <p class="tagline">
+                Year, Stream, Division, Roll No, Name, Student ID
+              </p>
+              <input type="file" accept=".csv,.xlsx,.xls" hidden />
+              <button class="btn secondary" type="button" data-browse>
+                Choose file
+              </button>
+              <p class="tagline" data-file-name>No file selected</p>
+              <button class="btn" type="submit">Upload & Review</button>
+            </form>
+
+            <form
+              class="card"
+              style="box-shadow: none; border-style: dashed"
+              data-upload-form="teachers"
+            >
+              <h3>Import Teachers</h3>
+              <p class="tagline">Name, Subject, Stream, Teacher ID</p>
+              <input type="file" accept=".csv,.xlsx,.xls" hidden />
+              <button class="btn secondary" type="button" data-browse>
+                Choose file
+              </button>
+              <p class="tagline" data-file-name>No file selected</p>
+              <button class="btn" type="submit">Upload & Review</button>
+            </form>
+          </div>
+
+          <div
+            class="card"
+            style="margin-top: 1.5rem; box-shadow: none; border-style: dashed"
+            data-preview-area
+          >
+            <h3>Preview</h3>
+            <p class="tagline">Uploaded rows appear here before confirm</p>
+            <p
+              class="tagline"
+              data-import-template-counts
+              style="margin-top: 0.4rem"
+            >
+              Template totals: Students 0, Teachers 0
+            </p>
+            <div
+              class="table-wrapper"
+              style="
+                margin-top: 1rem;
+                display: none;
+                max-height: 400px;
+                overflow-y: auto;
+                overflow-x: auto;
+              "
+              data-preview-table
+            >
+              <table>
+                <thead></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <button
+              class="btn"
+              style="margin-top: 1rem; display: none"
+              data-confirm-import
+            >
+              Confirm Import
+            </button>
+          </div>
+        </section>
+
+        <!-- Teacher Information Section -->
+        <section class="card" data-teachers-info-section>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: 0.5rem;
+            "
+          >
+            <div>
+              <h3>Teachers Information</h3>
+              <p class="tagline">
+                View teacher details, subjects, streams, divisions, and student
+                counts
+              </p>
+            </div>
+            <div
+              style="
+                display: flex;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                align-items: flex-start;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  gap: 0.5rem;
+                  align-items: flex-start;
+                "
+              >
+                <button
+                  class="btn secondary"
+                  data-download-teacher-template
+                  title="Show options to download Teacher or Student CSV import templates."
+                >
+                  Download Template
+                </button>
+                <div
+                  data-template-download-options
+                  style="display: none; gap: 0.5rem; flex-wrap: wrap"
+                >
+                  <button
+                    class="btn secondary"
+                    type="button"
+                    data-download-template-teacher
+                    title="Download Teacher import template CSV with required columns."
+                  >
+                    Teacher
+                  </button>
+                  <button
+                    class="btn secondary"
+                    type="button"
+                    data-download-template-student
+                    title="Download Student import template CSV with required columns."
+                  >
+                    Student
+                  </button>
+                </div>
+              </div>
+              <button
+                class="btn secondary"
+                data-open-add-teacher-tab
+                title="Open the Add Teacher form to create a teacher and subject mappings."
+              >
+                Add Teacher
+              </button>
+              <button
+                class="btn secondary"
+                data-open-edit-teacher-tab
+                title="Open the Edit Teacher tab to update existing teacher details and mappings."
+              >
+                Edit Teacher
+              </button>
+              <button
+                class="btn ghost"
+                data-refresh-teachers
+                title="Reload the latest teacher list and mapping counts."
+              >
+                Refresh
+              </button>
+            </div>
+          </div>
+          <div style="margin-top: 0.75rem; max-width: 320px">
+            <input
+              type="text"
+              data-teacher-info-search-input
+              placeholder="Search teachers... (ID, name, subject, year, stream, division)"
+              style="
+                width: 100%;
+                padding: 0.5rem 0.65rem;
+                border: 1px solid #d1d5db;
+                border-radius: 8px;
+                font-size: 0.88rem;
+              "
+            />
+          </div>
+          <div data-teachers-list-tab>
+            <div
+              class="table-wrapper"
+              style="margin-top: 1rem; max-height: 70vh; overflow-y: auto"
+            >
+              <table>
+                <thead>
+                  <tr>
+                    <th>Teacher ID</th>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>Year</th>
+                    <th>Stream</th>
+                    <th>Semester</th>
+                    <th>Divisions</th>
+                    <th>Student Count</th>
+                    <th>Teaching Status</th>
+                  </tr>
+                </thead>
+                <tbody data-teachers-info-body>
+                  <tr>
+                    <td colspan="9">Loading...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div data-add-teacher-tab style="display: none; margin-top: 1rem">
+            <div
+              class="card"
+              style="box-shadow: none; border-style: dashed; margin: 0"
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  gap: 0.75rem;
+                  flex-wrap: wrap;
+                "
+              >
+                <h4 style="margin: 0">Add Teacher</h4>
+                <button
+                  class="btn ghost"
+                  type="button"
+                  data-open-teachers-list-tab
+                >
+                  Back to list
+                </button>
+              </div>
+              <p class="tagline" style="margin-top: 0.5rem">
+                Add mappings in this order: Subject -> Year -> Semester ->
+                Stream. Division is common for all mappings below.
+              </p>
+
+              <form
+                data-add-teacher-form
+                style="margin-top: 1rem; display: grid; gap: 1rem"
+              >
+                <div
+                  style="
+                    display: grid;
+                    gap: 0.75rem;
+                    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                  "
+                >
+                  <div class="input-group" style="margin: 0">
+                    <label for="addTeacherId">Teacher ID</label>
+                    <input
+                      id="addTeacherId"
+                      name="teacherId"
+                      type="text"
+                      placeholder="e.g. T001"
+                      required
+                    />
+                  </div>
+                  <div class="input-group" style="margin: 0">
+                    <label for="addTeacherName">Teacher Name</label>
+                    <input
+                      id="addTeacherName"
+                      name="teacherName"
+                      type="text"
+                      placeholder="e.g. Priya Shah"
+                      required
+                    />
+                  </div>
+                  <div class="input-group" style="margin: 0">
+                    <label for="addTeacherDivisions">Common Divisions</label>
+                    <input
+                      id="addTeacherDivisions"
+                      name="division"
+                      type="text"
+                      placeholder="e.g. A,B,C"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      gap: 0.5rem;
+                      flex-wrap: wrap;
+                    "
+                  >
+                    <h5 style="margin: 0">Subject Mappings</h5>
+                    <button
+                      class="btn secondary"
+                      type="button"
+                      data-add-mapping-row
+                    >
+                      Add Mapping Row
+                    </button>
+                  </div>
+                  <div
+                    style="margin-top: 0.75rem; display: grid; gap: 0.75rem"
+                    data-teacher-mappings-container
+                  ></div>
+                </div>
+
+                <div
+                  style="
+                    display: flex;
+                    gap: 0.75rem;
+                    flex-wrap: wrap;
+                    justify-content: flex-end;
+                  "
+                >
+                  <button
+                    class="btn ghost"
+                    type="button"
+                    data-reset-add-teacher-form
+                  >
+                    Reset
+                  </button>
+                  <button class="btn" type="submit" data-submit-add-teacher>
+                    Add
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div data-edit-teacher-tab style="display: none; margin-top: 1rem">
+            <div
+              class="card"
+              style="box-shadow: none; border-style: dashed; margin: 0"
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  gap: 0.75rem;
+                  flex-wrap: wrap;
+                "
+              >
+                <h4 style="margin: 0">Edit Teacher</h4>
+                <button
+                  class="btn ghost"
+                  type="button"
+                  data-close-edit-teacher-tab
+                >
+                  Back to list
+                </button>
+              </div>
+              <p class="tagline" style="margin-top: 0.5rem">
+                Click a teacher from the list to open an editable tab of their
+                information.
+              </p>
+
+              <div
+                style="
+                  display: grid;
+                  gap: 1rem;
+                  grid-template-columns: minmax(260px, 320px) 1fr;
+                  margin-top: 1rem;
+                "
+              >
+                <div
+                  class="card"
+                  style="
+                    box-shadow: none;
+                    border-style: solid;
+                    border-color: rgba(0, 0, 0, 0.08);
+                    margin: 0;
+                    max-height: 60vh;
+                    overflow-y: auto;
+                  "
+                >
+                  <h5 style="margin: 0 0 0.5rem 0">Teachers</h5>
+                  <div
+                    style="display: grid; gap: 0.5rem"
+                    data-edit-teacher-list
+                  >
+                    <p class="tagline">Loading teachers...</p>
+                  </div>
+                </div>
+
+                <div
+                  class="card"
+                  style="
+                    box-shadow: none;
+                    border-style: solid;
+                    border-color: rgba(0, 0, 0, 0.08);
+                    margin: 0;
+                    display: none;
+                  "
+                  data-edit-teacher-form-panel
+                >
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      gap: 0.75rem;
+                      flex-wrap: wrap;
+                    "
+                  >
+                    <h5 style="margin: 0">Teacher Information</h5>
+                    <button
+                      class="btn ghost"
+                      type="button"
+                      data-reset-edit-teacher-form
+                    >
+                      Reset
+                    </button>
+                  </div>
+
+                  <form
+                    data-edit-teacher-form
+                    style="margin-top: 1rem; display: grid; gap: 1rem"
+                  >
+                    <div
+                      style="
+                        display: grid;
+                        gap: 0.75rem;
+                        grid-template-columns: repeat(
+                          auto-fit,
+                          minmax(220px, 1fr)
+                        );
+                      "
+                    >
+                      <div class="input-group" style="margin: 0">
+                        <label for="editTeacherId">Teacher ID</label>
+                        <input
+                          id="editTeacherId"
+                          name="teacherId"
+                          type="text"
+                          readonly
+                        />
+                      </div>
+                      <div class="input-group" style="margin: 0">
+                        <label for="editTeacherName">Teacher Name</label>
+                        <input
+                          id="editTeacherName"
+                          name="teacherName"
+                          type="text"
+                          required
+                        />
+                      </div>
+                      <div class="input-group" style="margin: 0">
+                        <label for="editTeacherDivisions"
+                          >Common Divisions</label
+                        >
+                        <input
+                          id="editTeacherDivisions"
+                          name="division"
+                          type="text"
+                          placeholder="e.g. A,B,C"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <p
+                      data-edit-teacher-warning
+                      style="
+                        display: none;
+                        color: #b91c1c;
+                        font-weight: 600;
+                        margin: 0;
+                      "
+                    >
+                      Warning: Special characters are not allowed in teacher
+                      edit fields.
+                    </p>
+
+                    <div>
+                      <div
+                        style="
+                          display: flex;
+                          justify-content: space-between;
+                          align-items: center;
+                          gap: 0.5rem;
+                          flex-wrap: wrap;
+                        "
+                      >
+                        <h5 style="margin: 0">Subject Mappings</h5>
+                        <button
+                          class="btn secondary"
+                          type="button"
+                          data-add-edit-mapping-row
+                        >
+                          Add Mapping Row
+                        </button>
+                      </div>
+                      <div
+                        style="margin-top: 0.75rem; display: grid; gap: 0.75rem"
+                        data-edit-teacher-mappings-container
+                      ></div>
+                    </div>
+
+                    <div
+                      style="
+                        display: flex;
+                        gap: 0.75rem;
+                        flex-wrap: wrap;
+                        justify-content: flex-end;
+                      "
+                    >
+                      <button
+                        class="btn"
+                        type="submit"
+                        data-confirm-edit-teacher
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <template data-teacher-mapping-row-template>
+            <div
+              class="card"
+              style="
+                box-shadow: none;
+                border-style: solid;
+                border-color: rgba(0, 0, 0, 0.08);
+                padding: 0.75rem;
+                margin: 0;
+              "
+            >
+              <div
+                style="
+                  display: grid;
+                  gap: 0.75rem;
+                  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                  align-items: end;
+                "
+              >
+                <div class="input-group" style="margin: 0">
+                  <label>Subject</label>
+                  <input
+                    type="text"
+                    data-mapping-subject
+                    placeholder="Subject"
+                    required
+                  />
+                </div>
+                <div class="input-group" style="margin: 0">
+                  <label>Year</label>
+                  <select data-mapping-year required>
+                    <option value="">Select year...</option>
+                    <option value="FY">FY</option>
+                    <option value="SY">SY</option>
+                    <option value="TY">TY</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin: 0">
+                  <label>Semester</label>
+                  <select data-mapping-semester required disabled>
+                    <option value="">Select semester...</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin: 0">
+                  <label>Stream</label>
+                  <select data-mapping-stream required>
+                    <option value="">Select stream...</option>
+                  </select>
+                </div>
+                <button
+                  class="btn ghost"
+                  type="button"
+                  data-remove-mapping-row
+                  style="
+                    height: fit-content;
+                    color: #c0392b;
+                    border-color: #c0392b;
+                  "
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </template>
+
+          <template data-edit-teacher-mapping-row-template>
+            <div
+              class="card"
+              style="
+                box-shadow: none;
+                border-style: solid;
+                border-color: rgba(0, 0, 0, 0.08);
+                padding: 0.75rem;
+                margin: 0;
+              "
+            >
+              <div
+                style="
+                  display: grid;
+                  gap: 0.75rem;
+                  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                  align-items: end;
+                "
+              >
+                <div class="input-group" style="margin: 0">
+                  <label>Subject</label>
+                  <input
+                    type="text"
+                    data-mapping-subject
+                    placeholder="Subject"
+                    required
+                  />
+                </div>
+                <div class="input-group" style="margin: 0">
+                  <label>Year</label>
+                  <select data-mapping-year required>
+                    <option value="">Select year...</option>
+                    <option value="FY">FY</option>
+                    <option value="SY">SY</option>
+                    <option value="TY">TY</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin: 0">
+                  <label>Semester</label>
+                  <select data-mapping-semester required disabled>
+                    <option value="">Select semester...</option>
+                  </select>
+                </div>
+                <div class="input-group" style="margin: 0">
+                  <label>Stream</label>
+                  <select data-mapping-stream required>
+                    <option value="">Select stream...</option>
+                  </select>
+                </div>
+                <button
+                  class="btn ghost"
+                  type="button"
+                  data-remove-mapping-row
+                  style="
+                    height: fit-content;
+                    color: #c0392b;
+                    border-color: #c0392b;
+                  "
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </template>
+        </section>
+
+        <!-- Students Information Section -->
+        <section class="card" data-students-info-section>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              gap: 1rem;
+              flex-wrap: wrap;
+            "
+          >
+            <div>
+              <h3>Students Information</h3>
+              <p class="tagline">
+                Filter students by stream and division to view details
+              </p>
+            </div>
+            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap">
+              <button class="btn secondary" data-open-add-student-tab>
+                Add Student
+              </button>
+              <button class="btn secondary" data-open-edit-student-tab>
+                Edit Student
+              </button>
+              <button class="btn secondary" data-open-student-bulk-status-tab>
+                Change Status
+              </button>
+              <button class="btn ghost" data-refresh-students>Refresh</button>
+            </div>
+          </div>
+
+          <div data-students-list-tab>
+            <div style="margin-top: 0.75rem; max-width: 320px">
+              <input
+                type="text"
+                data-student-info-search-input
+                placeholder="Search students... (ID, name, roll, year, stream, division)"
+                style="
+                  width: 100%;
+                  padding: 0.5rem 0.65rem;
+                  border: 1px solid #d1d5db;
+                  border-radius: 8px;
+                  font-size: 0.88rem;
+                "
+              />
+            </div>
+            <div
+              style="
+                display: flex;
+                gap: 0.75rem;
+                flex-wrap: wrap;
+                align-items: flex-end;
+                margin-top: 0.75rem;
+              "
+            >
+              <div class="input-group" style="margin: 0; min-width: 150px">
+                <label for="filterStream" style="font-size: 0.875rem"
+                  >Stream</label
+                >
+                <select id="filterStream" name="stream" style="padding: 0.5rem">
+                  <option value="">Select stream...</option>
+                </select>
+              </div>
+              <div class="input-group" style="margin: 0; min-width: 150px">
+                <label for="filterYear" style="font-size: 0.875rem">Year</label>
+                <select
+                  id="filterYear"
+                  name="year"
+                  style="padding: 0.5rem"
+                  disabled
+                >
+                  <option value="">Select year...</option>
+                  <option value="FY">FY (First Year)</option>
+                  <option value="SY">SY (Second Year)</option>
+                  <option value="TY">TY (Third Year)</option>
+                </select>
+              </div>
+              <div class="input-group" style="margin: 0; min-width: 150px">
+                <label for="filterSemester" style="font-size: 0.875rem"
+                  >Semester</label
+                >
+                <select
+                  id="filterSemester"
+                  name="semester"
+                  style="padding: 0.5rem"
+                  disabled
+                >
+                  <option value="">Select semester...</option>
+                </select>
+              </div>
+              <div class="input-group" style="margin: 0; min-width: 150px">
+                <label for="filterDivision" style="font-size: 0.875rem"
+                  >Division</label
+                >
+                <select
+                  id="filterDivision"
+                  name="division"
+                  style="padding: 0.5rem"
+                  disabled
+                >
+                  <option value="">Select division...</option>
+                </select>
+              </div>
+              <button
+                class="btn secondary"
+                data-load-students
+                style="height: fit-content"
+              >
+                Load Students
+              </button>
+            </div>
+
+            <!-- Subjects & Teachers Info -->
+            <div
+              style="
+                margin-top: 1.5rem;
+                display: grid;
+                gap: 1rem;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+              "
+              data-subjects-teachers-container
+              style="display: none"
+            >
+              <div
+                class="card"
+                style="box-shadow: none; border-style: dashed; padding: 1rem"
+              >
+                <h4 style="margin-bottom: 0.75rem">Subjects</h4>
+                <div data-subjects-list style="display: grid; gap: 0.5rem">
+                  <p class="tagline">No subjects available</p>
+                </div>
+              </div>
+              <div
+                class="card"
+                style="box-shadow: none; border-style: dashed; padding: 1rem"
+              >
+                <h4 style="margin-bottom: 0.75rem">Teachers</h4>
+                <div data-teachers-list style="display: grid; gap: 0.5rem">
+                  <p class="tagline">No teachers available</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Student Count Display -->
+            <div
+              style="margin-top: 1.5rem; display: none"
+              data-student-count-display
+            >
+              <p style="font-size: 1rem; font-weight: 500; margin: 0">
+                Total Students: <span data-student-count-value>0</span>
+              </p>
+            </div>
+
+            <!-- Students List -->
+            <div
+              class="table-wrapper"
+              style="
+                margin-top: 1rem;
+                max-height: 500px;
+                overflow-y: auto;
+                display: none;
+              "
+              data-students-info-table
+            >
+              <table>
+                <thead>
+                  <tr>
+                    <th>Roll No</th>
+                    <th>Student ID</th>
+                    <th>Student Name</th>
+                    <th>Year</th>
+                    <th>Stream</th>
+                    <th>Division</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody data-students-info-body>
+                  <tr>
+                    <td colspan="7">
+                      Select stream and division to view students
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div data-add-student-tab style="display: none; margin-top: 1rem">
+            <div
+              class="card"
+              style="box-shadow: none; border-style: dashed; margin: 0"
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  gap: 0.75rem;
+                  flex-wrap: wrap;
+                "
+              >
+                <h4 style="margin: 0">Add Student</h4>
+                <button
+                  class="btn ghost"
+                  type="button"
+                  data-open-students-list-tab
+                >
+                  Back to list
+                </button>
+              </div>
+              <p class="tagline" style="margin-top: 0.5rem">
+                Add a student record to student_details_db.
+              </p>
+
+              <form
+                data-add-student-form
+                style="margin-top: 1rem; display: grid; gap: 1rem"
+              >
+                <div
+                  style="
+                    display: grid;
+                    gap: 0.75rem;
+                    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                  "
+                >
+                  <div class="input-group" style="margin: 0">
+                    <label for="addStudentId">Student ID</label>
+                    <input
+                      id="addStudentId"
+                      name="studentId"
+                      type="text"
+                      placeholder="e.g. S001"
+                      required
+                    />
+                  </div>
+                  <div class="input-group" style="margin: 0">
+                    <label for="addStudentName">Student Name</label>
+                    <input
+                      id="addStudentName"
+                      name="studentName"
+                      type="text"
+                      placeholder="e.g. Rahul Patil"
+                      required
+                    />
+                  </div>
+                  <div class="input-group" style="margin: 0">
+                    <label for="addStudentRollNo">Roll No</label>
+                    <input
+                      id="addStudentRollNo"
+                      name="rollNo"
+                      type="number"
+                      min="1"
+                      step="1"
+                      placeholder="e.g. 25"
+                      required
+                    />
+                  </div>
+                  <div class="input-group" style="margin: 0">
+                    <label for="addStudentYear">Year</label>
+                    <select id="addStudentYear" name="year" required>
+                      <option value="">Select year...</option>
+                      <option value="FY">FY</option>
+                      <option value="SY">SY</option>
+                      <option value="TY">TY</option>
+                    </select>
+                  </div>
+                  <div class="input-group" style="margin: 0">
+                    <label for="addStudentStream">Stream</label>
+                    <input
+                      id="addStudentStream"
+                      name="stream"
+                      type="text"
+                      placeholder="e.g. BSCIT"
+                      required
+                    />
+                  </div>
+                  <div class="input-group" style="margin: 0">
+                    <label for="addStudentDivision">Division</label>
+                    <input
+                      id="addStudentDivision"
+                      name="division"
+                      type="text"
+                      placeholder="e.g. A"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    display: flex;
+                    gap: 0.75rem;
+                    flex-wrap: wrap;
+                    justify-content: flex-end;
+                  "
+                >
+                  <button
+                    class="btn ghost"
+                    type="button"
+                    data-reset-add-student-form
+                  >
+                    Reset
+                  </button>
+                  <button class="btn" type="submit" data-submit-add-student>
+                    Add
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div data-edit-student-tab style="display: none; margin-top: 1rem">
+            <div
+              class="card"
+              style="box-shadow: none; border-style: dashed; margin: 0"
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  gap: 0.75rem;
+                  flex-wrap: wrap;
+                "
+              >
+                <h4 style="margin: 0">Edit Student</h4>
+                <button
+                  class="btn ghost"
+                  type="button"
+                  data-close-edit-student-tab
+                >
+                  Back to list
+                </button>
+              </div>
+              <p class="tagline" style="margin-top: 0.5rem">
+                Click a student from the list to open an editable tab of their
+                information.
+              </p>
+
+              <div
+                style="
+                  display: grid;
+                  gap: 1rem;
+                  grid-template-columns: minmax(260px, 320px) 1fr;
+                  margin-top: 1rem;
+                "
+              >
+                <div
+                  class="card"
+                  style="
+                    box-shadow: none;
+                    border-style: solid;
+                    border-color: rgba(0, 0, 0, 0.08);
+                    margin: 0;
+                    max-height: 60vh;
+                    overflow-y: auto;
+                  "
+                >
+                  <h5 style="margin: 0 0 0.5rem 0">Students</h5>
+                  <div
+                    style="display: grid; gap: 0.5rem"
+                    data-edit-student-list
+                  >
+                    <p class="tagline">Loading students...</p>
+                  </div>
+                </div>
+
+                <div
+                  class="card"
+                  style="
+                    box-shadow: none;
+                    border-style: solid;
+                    border-color: rgba(0, 0, 0, 0.08);
+                    margin: 0;
+                    display: none;
+                  "
+                  data-edit-student-form-panel
+                >
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      gap: 0.75rem;
+                      flex-wrap: wrap;
+                    "
+                  >
+                    <h5 style="margin: 0">Student Information</h5>
+                    <button
+                      class="btn ghost"
+                      type="button"
+                      data-reset-edit-student-form
+                    >
+                      Reset
+                    </button>
+                  </div>
+
+                  <form
+                    data-edit-student-form
+                    style="margin-top: 1rem; display: grid; gap: 1rem"
+                  >
+                    <div
+                      style="
+                        display: grid;
+                        gap: 0.75rem;
+                        grid-template-columns: repeat(
+                          auto-fit,
+                          minmax(220px, 1fr)
+                        );
+                      "
+                    >
+                      <div class="input-group" style="margin: 0">
+                        <label for="editStudentId">Student ID</label>
+                        <input
+                          id="editStudentId"
+                          name="studentId"
+                          type="text"
+                          readonly
+                        />
+                      </div>
+                      <div class="input-group" style="margin: 0">
+                        <label for="editStudentName">Student Name</label>
+                        <input
+                          id="editStudentName"
+                          name="studentName"
+                          type="text"
+                          required
+                        />
+                      </div>
+                      <div class="input-group" style="margin: 0">
+                        <label for="editStudentRollNo">Roll No</label>
+                        <input
+                          id="editStudentRollNo"
+                          name="rollNo"
+                          type="number"
+                          min="1"
+                          step="1"
+                          required
+                        />
+                      </div>
+                      <div class="input-group" style="margin: 0">
+                        <label for="editStudentYear">Year</label>
+                        <select id="editStudentYear" name="year" required>
+                          <option value="">Select year...</option>
+                          <option value="FY">FY</option>
+                          <option value="SY">SY</option>
+                          <option value="TY">TY</option>
+                        </select>
+                      </div>
+                      <div class="input-group" style="margin: 0">
+                        <label for="editStudentStream">Stream</label>
+                        <input
+                          id="editStudentStream"
+                          name="stream"
+                          type="text"
+                          required
+                        />
+                      </div>
+                      <div class="input-group" style="margin: 0">
+                        <label for="editStudentDivision">Division</label>
+                        <input
+                          id="editStudentDivision"
+                          name="division"
+                          type="text"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <p
+                      data-edit-student-warning
+                      style="
+                        display: none;
+                        color: #b91c1c;
+                        font-weight: 600;
+                        margin: 0;
+                      "
+                    >
+                      Warning: Special characters are not allowed in student
+                      edit fields.
+                    </p>
+
+                    <div
+                      style="
+                        display: flex;
+                        gap: 0.75rem;
+                        flex-wrap: wrap;
+                        justify-content: flex-end;
+                      "
+                    >
+                      <button
+                        class="btn"
+                        type="submit"
+                        data-confirm-edit-student
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            data-student-bulk-status-tab
+            style="display: none; margin-top: 1rem"
+          >
+            <div
+              class="card"
+              style="box-shadow: none; border-style: dashed; margin: 0"
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  gap: 0.75rem;
+                  flex-wrap: wrap;
+                "
+              >
+                <h4 style="margin: 0">Change Status (Bulk)</h4>
+                <button
+                  class="btn ghost"
+                  type="button"
+                  data-close-student-bulk-status-tab
+                >
+                  Back to list
+                </button>
+              </div>
+              <p class="tagline" style="margin-top: 0.5rem">
+                Select Year to auto-fill Stream and Division. You can edit
+                auto-filled entries before applying.
+              </p>
+
+              <form
+                data-student-bulk-status-form
+                style="margin-top: 1rem; display: grid; gap: 1rem"
+              >
+                <div
+                  style="
+                    display: grid;
+                    gap: 0.75rem;
+                    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                  "
+                >
+                  <div class="input-group" style="margin: 0">
+                    <label for="bulkStudentYear">Year</label>
+                    <select id="bulkStudentYear" name="year" required>
+                      <option value="">Select year...</option>
+                      <option value="FY">FY</option>
+                      <option value="SY">SY</option>
+                      <option value="TY">TY</option>
+                    </select>
+                  </div>
+                  <div class="input-group" style="margin: 0">
+                    <label for="bulkStudentStream">Stream</label>
+                    <select id="bulkStudentStream" name="stream" disabled>
+                      <option value="ALL">All Streams</option>
+                    </select>
+                  </div>
+                  <div class="input-group" style="margin: 0">
+                    <label for="bulkStudentDivision">Division</label>
+                    <select id="bulkStudentDivision" name="division" disabled>
+                      <option value="ALL">All Divisions</option>
+                    </select>
+                  </div>
+                  <div class="input-group" style="margin: 0">
+                    <label for="bulkStudentStatus">Status</label>
+                    <select id="bulkStudentStatus" name="status" required>
+                      <option value="Active">Active</option>
+                      <option value="Inactive">Inactive</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div
+                  style="
+                    display: flex;
+                    gap: 0.75rem;
+                    flex-wrap: wrap;
+                    justify-content: flex-end;
+                  "
+                >
+                  <button
+                    class="btn"
+                    type="submit"
+                    data-apply-bulk-student-status
+                  >
+                    Apply Status
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <section class="card" data-activity-section>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              gap: 0.5rem;
+            "
+          >
+            <h3>Recent Activity</h3>
+            <div style="display: flex; gap: 0.5rem">
+              <button class="btn ghost" data-clear-activity>Clear</button>
+              <button class="btn ghost" data-refresh-activity>Refresh</button>
+            </div>
+          </div>
+          <div class="table-wrapper" style="margin-top: 1rem">
+            <table>
+              <thead>
+                <tr>
+                  <th>When</th>
+                  <th>Action</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody data-activity-body>
+                <tr>
+                  <td colspan="3">No activity yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog
+      data-history-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(900px, 90vw);
+        max-height: 80vh;
+      "
+    >
+      <div class="layout-grid" style="gap: 1rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>Attendance History (All Records)</h3>
+          <div style="display: flex; gap: 0.75rem">
+            <button
+              type="button"
+              class="btn ghost"
+              data-clear-history
+              style="color: #dc3545; border-color: #dc3545"
+            >
+              Clear History
+            </button>
+            <button type="button" class="btn ghost" data-close-history>
+              Close
+            </button>
+          </div>
+        </div>
+        <div class="table-wrapper" style="max-height: 60vh; overflow-y: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Filename</th>
+                <th>Teacher ID</th>
+                <th>Subject</th>
+                <th>Stream</th>
+                <th>Division</th>
+                <th>Saved</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody data-history-body>
+              <tr>
+                <td colspan="7">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- View Students in Session Modal -->
+    <dialog
+      data-view-session-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(700px, 90vw);
+        max-height: 80vh;
+      "
+    >
+      <div class="layout-grid" style="gap: 1rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div>
+            <h3>Session Students</h3>
+            <p class="tagline" data-session-details></p>
+          </div>
+          <button type="button" class="btn ghost" data-close-view-session>
+            Close
+          </button>
+        </div>
+        <div class="table-wrapper" style="max-height: 50vh; overflow-y: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Roll No</th>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody data-session-students-body>
+              <tr>
+                <td colspan="4">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <menu style="display: flex; gap: 0.75rem; justify-content: flex-end">
+          <button type="button" class="btn" data-export-session>
+            Export as .xlsx
+          </button>
+        </menu>
+      </div>
+    </dialog>
+
+    <dialog
+      data-export-students-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(800px, 90vw);
+        max-height: 80vh;
+      "
+    >
+      <form method="dialog" class="layout-grid" style="gap: 1rem">
+        <h3>Export Students</h3>
+        <p class="tagline">
+          Select stream, division, and year to view students before exporting to
+          .xlsx
+        </p>
+        <div class="input-group">
+          <label for="exportStream">Stream</label>
+          <select id="exportStream" name="stream" required>
+            <option value="">Select stream...</option>
+            <option value="ALL">All Streams</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="exportDivision">Division</label>
+          <select id="exportDivision" name="division" required>
+            <option value="">Select division...</option>
+            <option value="ALL">All Divisions</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label for="exportYear">Year</label>
+          <select id="exportYear" name="year" required>
+            <option value="">Select year...</option>
+            <option value="ALL">All Years</option>
+            <option value="FY">FY (First Year)</option>
+            <option value="SY">SY (Second Year)</option>
+            <option value="TY">TY (Third Year)</option>
+          </select>
+        </div>
+        <menu style="display: flex; gap: 0.75rem; justify-content: flex-end">
+          <button type="button" class="btn secondary" data-cancel-export>
+            Cancel
+          </button>
+          <button type="submit" class="btn" value="submit">View</button>
+        </menu>
+        <div
+          class="table-wrapper"
+          style="
+            margin-top: 1rem;
+            max-height: 400px;
+            overflow-y: auto;
+            display: none;
+          "
+          data-students-view-table
+        >
+          <table>
+            <thead>
+              <tr>
+                <th>Roll No</th>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Stream</th>
+                <th>Division</th>
+              </tr>
+            </thead>
+            <tbody data-students-view-body>
+              <tr>
+                <td colspan="6">
+                  Select filters and click View to see students.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <button
+          type="button"
+          class="btn"
+          style="margin-top: 1rem; display: none"
+          data-export-students-xlsx
+        >
+          Export as .xlsx
+        </button>
+      </form>
+    </dialog>
+
+    <!-- Export Teachers Modal -->
+    <dialog
+      data-export-teachers-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(800px, 90vw);
+        max-height: 80vh;
+      "
+    >
+      <div class="layout-grid" style="gap: 1rem">
+        <h3>View Teachers</h3>
+        <p class="tagline">View all teachers before exporting to .xlsx</p>
+        <div
+          class="table-wrapper"
+          style="margin-top: 1rem; max-height: 400px; overflow-y: auto"
+          data-teachers-view-table
+        >
+          <table>
+            <thead>
+              <tr>
+                <th>Teacher ID</th>
+                <th>Name</th>
+                <th>Subject</th>
+                <th>Year</th>
+                <th>Stream</th>
+                <th>Semester</th>
+                <th>Divisions</th>
+              </tr>
+            </thead>
+            <tbody data-teachers-view-body>
+              <tr>
+                <td colspan="7">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <menu style="display: flex; gap: 0.75rem; justify-content: flex-end">
+          <button
+            type="button"
+            class="btn secondary"
+            data-cancel-export-teachers
+          >
+            Cancel
+          </button>
+          <button type="button" class="btn" data-export-teachers-xlsx>
+            Export as .xlsx
+          </button>
+        </menu>
+      </div>
+    </dialog>
+
+    <dialog
+      data-defaulter-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(600px, 90vw);
+      "
+    >
+      <div class="layout-grid" style="gap: 1.5rem">
+        <div>
+          <h3>Generate Defaulter List</h3>
+          <p class="tagline">Configure defaulter selection criteria</p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div
+          style="
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+            overflow-x: auto;
+          "
+        >
+          <button
+            type="button"
+            class="tab-btn active"
+            data-defaulter-tab="year"
+            style="
+              padding: 0.75rem 1.25rem;
+              border: none;
+              background: none;
+              cursor: pointer;
+              border-bottom: 3px solid transparent;
+              font-weight: 500;
+              transition: all 0.2s;
+            "
+          >
+            Year
+          </button>
+          <button
+            type="button"
+            class="tab-btn"
+            data-defaulter-tab="stream"
+            style="
+              padding: 0.75rem 1.25rem;
+              border: none;
+              background: none;
+              cursor: pointer;
+              border-bottom: 3px solid transparent;
+              font-weight: 500;
+              transition: all 0.2s;
+            "
+          >
+            Stream
+          </button>
+          <button
+            type="button"
+            class="tab-btn"
+            data-defaulter-tab="division"
+            style="
+              padding: 0.75rem 1.25rem;
+              border: none;
+              background: none;
+              cursor: pointer;
+              border-bottom: 3px solid transparent;
+              font-weight: 500;
+              transition: all 0.2s;
+            "
+          >
+            Division
+          </button>
+          <button
+            type="button"
+            class="tab-btn"
+            data-defaulter-tab="daterange"
+            style="
+              padding: 0.75rem 1.25rem;
+              border: none;
+              background: none;
+              cursor: pointer;
+              border-bottom: 3px solid transparent;
+              font-weight: 500;
+              transition: all 0.2s;
+            "
+          >
+            Date Range
+          </button>
+          <button
+            type="button"
+            class="tab-btn"
+            data-defaulter-tab="percentage"
+            style="
+              padding: 0.75rem 1.25rem;
+              border: none;
+              background: none;
+              cursor: pointer;
+              border-bottom: 3px solid transparent;
+              font-weight: 500;
+              transition: all 0.2s;
+            "
+          >
+            Percentage
+          </button>
+        </div>
+
+        <!-- Tab Content -->
+        <form
+          data-defaulter-form
+          class="layout-grid"
+          style="gap: 1rem; min-height: 200px"
+        >
+          <!-- Year Tab -->
+          <div class="tab-content active" data-tab-content="year">
+            <div class="input-group">
+              <label for="defaulterYear">Academic Year</label>
+              <select id="defaulterYear" name="year" required>
+                <option value="">Select year...</option>
+                <option value="ALL">All Years</option>
+                <option value="FY">FY (First Year)</option>
+                <option value="SY">SY (Second Year)</option>
+                <option value="TY">TY (Third Year)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Stream Tab -->
+          <div
+            class="tab-content"
+            data-tab-content="stream"
+            style="display: none"
+          >
+            <div class="input-group">
+              <label for="defaulterStream">Stream</label>
+              <select id="defaulterStream" name="stream" required>
+                <option value="">Select stream...</option>
+                <option value="ALL">All Streams</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Division Tab -->
+          <div
+            class="tab-content"
+            data-tab-content="division"
+            style="display: none"
+          >
+            <div class="input-group">
+              <label for="defaulterDivision">Division</label>
+              <select id="defaulterDivision" name="division" required>
+                <option value="">Select division...</option>
+                <option value="ALL">All Divisions</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Date Range Tab -->
+          <div
+            class="tab-content"
+            data-tab-content="daterange"
+            style="display: none"
+          >
+            <div class="input-group">
+              <label for="defaulterStartDate">Start Date</label>
+              <input
+                type="date"
+                id="defaulterStartDate"
+                name="start_date"
+                style="
+                  width: 100%;
+                  padding: 0.75rem;
+                  border: 1px solid #ddd;
+                  border-radius: 8px;
+                  font-size: 1rem;
+                  font-family: inherit;
+                "
+              />
+              <p
+                class="tagline"
+                style="margin-top: 0.5rem; font-size: 0.875rem; color: #666"
+              >
+                Select the start date for the attendance period
+              </p>
+            </div>
+            <div class="input-group" style="margin-top: 1rem">
+              <label for="defaulterEndDate">End Date</label>
+              <input
+                type="date"
+                id="defaulterEndDate"
+                name="end_date"
+                style="
+                  width: 100%;
+                  padding: 0.75rem;
+                  border: 1px solid #ddd;
+                  border-radius: 8px;
+                  font-size: 1rem;
+                  font-family: inherit;
+                "
+              />
+              <p
+                class="tagline"
+                style="margin-top: 0.5rem; font-size: 0.875rem; color: #666"
+              >
+                Select the end date (leave empty for all dates from start)
+              </p>
+            </div>
+          </div>
+
+          <!-- Percentage Tab -->
+          <div
+            class="tab-content"
+            data-tab-content="percentage"
+            style="display: none"
+          >
+            <div class="input-group">
+              <label for="defaulterPercentage"
+                >Minimum Attendance Percentage</label
+              >
+              <input
+                type="number"
+                id="defaulterPercentage"
+                name="threshold"
+                min="0"
+                max="100"
+                step="1"
+                value="75"
+                required
+                placeholder="Enter percentage (0-100)"
+              />
+              <p class="tagline" style="margin-top: 0.5rem">
+                Students below this percentage will be marked as defaulters
+              </p>
+            </div>
+          </div>
+
+          <!-- Navigation Buttons -->
+          <menu
+            style="
+              display: flex;
+              gap: 0.75rem;
+              justify-content: space-between;
+              margin-top: 1rem;
+            "
+          >
+            <div style="display: flex; gap: 0.75rem">
+              <button type="button" class="btn secondary" data-defaulter-cancel>
+                Cancel
+              </button>
+            </div>
+            <div style="display: flex; gap: 0.75rem">
+              <button
+                type="button"
+                class="btn ghost"
+                data-defaulter-prev
+                style="display: none"
+              >
+                Previous
+              </button>
+              <button type="button" class="btn secondary" data-defaulter-next>
+                Next
+              </button>
+              <button
+                type="submit"
+                class="btn ghost"
+                data-defaulter-generate
+                style="display: none"
+              >
+                View
+              </button>
+              <button
+                type="button"
+                class="btn"
+                data-defaulter-export-direct
+                style="
+                  display: none;
+                  background: #e74c3c;
+                  border-color: #e74c3c;
+                "
+              >
+                Export
+              </button>
+            </div>
+          </menu>
+        </form>
+
+        <!-- Defaulters Preview -->
+        <div style="display: none" data-defaulters-preview>
+          <h4>Defaulters Preview</h4>
+          <p class="tagline" data-defaulters-summary></p>
+          <div
+            class="table-wrapper"
+            style="margin-top: 1rem; max-height: 400px; overflow-y: auto"
+          >
+            <table>
+              <thead>
+                <tr>
+                  <th>Student ID</th>
+                  <th>Name</th>
+                  <th>Year</th>
+                  <th>Stream</th>
+                  <th>Division</th>
+                  <th>Sessions</th>
+                  <th>Overall Attendance %</th>
+                </tr>
+              </thead>
+              <tbody data-defaulters-body>
+                <tr>
+                  <td colspan="7">No defaulters to display</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <button
+            type="button"
+            class="btn"
+            style="margin-top: 1rem; background: #e74c3c; border-color: #e74c3c"
+            data-export-defaulters-xlsx
+          >
+            Export as .xlsx
+          </button>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Students List Modal -->
+    <dialog
+      data-students-list-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(700px, 90vw);
+        max-height: 80vh;
+      "
+    >
+      <div class="layout-grid" style="gap: 1rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>All Students</h3>
+          <button type="button" class="btn ghost" data-close-students-list>
+            Close
+          </button>
+        </div>
+        <div class="table-wrapper" style="max-height: 60vh; overflow-y: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Year</th>
+                <th>Stream</th>
+                <th>Division</th>
+              </tr>
+            </thead>
+            <tbody data-students-list-body>
+              <tr>
+                <td colspan="4">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Teachers List Modal -->
+    <dialog
+      data-teachers-list-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(1100px, 95vw);
+        max-height: 80vh;
+      "
+    >
+      <div class="layout-grid" style="gap: 1rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>All Teachers</h3>
+          <button type="button" class="btn ghost" data-close-teachers-list>
+            Close
+          </button>
+        </div>
+        <div class="table-wrapper" style="max-height: 60vh; overflow-y: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Teacher ID</th>
+                <th>Teacher Name</th>
+                <th>Subject</th>
+                <th>Year</th>
+                <th>Stream</th>
+                <th>Semester</th>
+                <th>Division</th>
+              </tr>
+            </thead>
+            <tbody data-teachers-list-body>
+              <tr>
+                <td colspan="7">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Current Sessions List Modal -->
+    <dialog
+      data-current-sessions-list-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(1100px, 95vw);
+        max-height: 80vh;
+      "
+    >
+      <div class="layout-grid" style="gap: 1rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>Current Ongoing Sessions</h3>
+          <button
+            type="button"
+            class="btn ghost"
+            data-close-current-sessions-list
+          >
+            Close
+          </button>
+        </div>
+        <div class="table-wrapper" style="max-height: 60vh; overflow-y: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Teacher</th>
+                <th>Year</th>
+                <th>Stream</th>
+                <th>Division</th>
+                <th>Start Time</th>
+              </tr>
+            </thead>
+            <tbody data-current-sessions-list-body>
+              <tr>
+                <td colspan="6">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Streams List Modal -->
+    <dialog
+      data-streams-list-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(500px, 90vw);
+        max-height: 80vh;
+      "
+    >
+      <div class="layout-grid" style="gap: 1rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>All Streams</h3>
+          <button type="button" class="btn ghost" data-close-streams-list>
+            Close
+          </button>
+        </div>
+        <div class="table-wrapper" style="max-height: 60vh; overflow-y: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Stream</th>
+                <th>Students</th>
+              </tr>
+            </thead>
+            <tbody data-streams-list-body>
+              <tr>
+                <td colspan="2">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Subjects List Modal -->
+    <dialog
+      data-subjects-list-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(800px, 90vw);
+        max-height: 80vh;
+      "
+    >
+      <div class="layout-grid" style="gap: 1rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>All Subjects</h3>
+          <button type="button" class="btn ghost" data-close-subjects-list>
+            Close
+          </button>
+        </div>
+        <div class="table-wrapper" style="max-height: 60vh; overflow-y: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Year-Stream-Division</th>
+                <th>Taught by</th>
+              </tr>
+            </thead>
+            <tbody data-subjects-list-body>
+              <tr>
+                <td colspan="3">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Divisions List Modal -->
+    <dialog
+      data-divisions-list-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(600px, 90vw);
+        max-height: 80vh;
+      "
+    >
+      <div class="layout-grid" style="gap: 1rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>All Divisions</h3>
+          <button type="button" class="btn ghost" data-close-divisions-list>
+            Close
+          </button>
+        </div>
+        <div class="table-wrapper" style="max-height: 60vh; overflow-y: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Division</th>
+                <th>Taught by</th>
+              </tr>
+            </thead>
+            <tbody data-divisions-list-body>
+              <tr>
+                <td colspan="2">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Admin Defaulter Lists History Modal -->
+    <dialog
+      data-admin-defaulter-history-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(1000px, 95vw);
+        max-height: 80vh;
+      "
+    >
+      <div class="layout-grid" style="gap: 1rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>Defaulter Lists History</h3>
+          <button
+            type="button"
+            class="btn ghost"
+            data-close-admin-defaulter-history
+          >
+            Close
+          </button>
+        </div>
+        <div class="table-wrapper" style="max-height: 60vh; overflow-y: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Teacher</th>
+                <th>Filters</th>
+                <th>Threshold</th>
+                <th>Defaulters</th>
+                <th>Saved On</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody data-admin-defaulter-history-body>
+              <tr>
+                <td colspan="6">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Admin Defaulter History Detail Modal -->
+    <dialog
+      data-admin-dh-detail-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(860px, 95vw);
+        max-height: 90vh;
+      "
+    >
+      <div class="layout-grid" style="gap: 1rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+          "
+        >
+          <div>
+            <h3>Defaulter List Detail</h3>
+            <p class="tagline" data-admin-dh-detail-summary>—</p>
+          </div>
+          <button type="button" class="btn ghost" data-close-admin-dh-detail>
+            Close
+          </button>
+        </div>
+        <div class="table-wrapper" style="max-height: 65vh; overflow-y: auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Sr No</th>
+                <th>Roll No</th>
+                <th>Student Name</th>
+                <th>Year</th>
+                <th>Stream</th>
+                <th>Division</th>
+                <th>Sessions</th>
+                <th>Attendance %</th>
+              </tr>
+            </thead>
+            <tbody data-admin-dh-detail-body>
+              <tr>
+                <td colspan="7">Loading...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Student Details Modal -->
+    <!-- Search Results Modal -->
+    <dialog
+      data-search-results-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(800px, 90vw);
+        max-height: 85vh;
+        overflow-y: auto;
+      "
+    >
+      <div class="layout-grid" style="gap: 1.5rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>Search Results</h3>
+          <button type="button" class="btn ghost" data-close-search-results>
+            Close
+          </button>
+        </div>
+        <div data-search-results-content>
+          <div style="text-align: center; padding: 2rem; color: #666">
+            Loading results...
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Student Details Modal -->
+    <dialog
+      data-student-details-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(600px, 90vw);
+        max-height: 85vh;
+        overflow-y: auto;
+      "
+    >
+      <div class="layout-grid" style="gap: 1.5rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>Student Details</h3>
+          <button type="button" class="btn ghost" data-close-student-details>
+            Close
+          </button>
+        </div>
+        <div data-student-details-content>
+          <div style="text-align: center; padding: 2rem; color: #666">
+            Loading student details...
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Session Attendance Details Modal -->
+    <dialog
+      data-session-attendance-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(95vw, 1200px);
+        max-height: 90vh;
+        overflow-y: auto;
+      "
+    >
+      <div class="layout-grid" style="gap: 1.5rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>Session Attendance Details</h3>
+          <button type="button" class="btn ghost" data-close-session-attendance>
+            Close
+          </button>
+        </div>
+
+        <!-- Search Bar for Filtering -->
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px">
+          <input
+            type="text"
+            data-session-search-input
+            placeholder="Search by Student ID, Name, Roll No, Year, Stream, Division, Date, Status, or Teacher..."
+            style="
+              width: 100%;
+              padding: 0.75rem;
+              border: 1px solid #ddd;
+              border-radius: 6px;
+              font-size: 0.95rem;
+            "
+          />
+        </div>
+
+        <div data-session-attendance-content style="overflow-x: auto">
+          <div style="text-align: center; padding: 2rem; color: #666">
+            Loading session attendance data...
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Teacher Details Modal -->
+    <dialog
+      data-teacher-details-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(600px, 90vw);
+        max-height: 85vh;
+        overflow-y: auto;
+      "
+    >
+      <div class="layout-grid" style="gap: 1.5rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>Teacher Details</h3>
+          <button type="button" class="btn ghost" data-close-teacher-details>
+            Close
+          </button>
+        </div>
+        <div data-teacher-details-content>
+          <div style="text-align: center; padding: 2rem; color: #666">
+            Loading teacher details...
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- Change Password Modal -->
+    <dialog
+      data-change-password-modal
+      style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(450px, 90vw);
+        max-height: 85vh;
+        overflow-y: auto;
+      "
+    >
+      <div class="layout-grid" style="gap: 1.5rem">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <h3>Change Admin Password</h3>
+          <button type="button" class="btn ghost" data-close-change-password>
+            Close
+          </button>
+        </div>
+        <form data-change-password-form style="display: grid; gap: 1rem">
+          <div>
+            <label
+              style="
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 600;
+                color: #2c3e50;
+              "
+            >
+              Current Password
+            </label>
+            <input
+              type="password"
+              name="currentPassword"
+              required
+              autocomplete="current-password"
+              style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                font-size: 0.95rem;
+              "
+              placeholder="Enter current password"
+            />
+          </div>
+          <div>
+            <label
+              style="
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 600;
+                color: #2c3e50;
+              "
+            >
+              New Password
+            </label>
+            <input
+              type="password"
+              name="newPassword"
+              required
+              autocomplete="new-password"
+              minlength="6"
+              style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                font-size: 0.95rem;
+              "
+              placeholder="Enter new password (min 6 characters)"
+            />
+          </div>
+          <div>
+            <label
+              style="
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 600;
+                color: #2c3e50;
+              "
+            >
+              Confirm New Password
+            </label>
+            <input
+              type="password"
+              name="confirmPassword"
+              required
+              autocomplete="new-password"
+              minlength="6"
+              style="
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                font-size: 0.95rem;
+              "
+              placeholder="Re-enter new password"
+            />
+          </div>
+          <div
+            style="
+              display: flex;
+              gap: 0.75rem;
+              justify-content: flex-end;
+              margin-top: 0.5rem;
+            "
+          >
+            <button type="button" class="btn ghost" data-cancel-change-password>
+              Cancel
+            </button>
+            <button type="submit" class="btn">Change Password</button>
+          </div>
+        </form>
+      </div>
+    </dialog>
+
+    <div class="toast-stack" data-toast-stack></div>
+    <script type="module" src="/js/admin.js"></script>
+  </body>
+</html>

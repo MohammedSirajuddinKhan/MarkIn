@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MarkIn · Student Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body>
+  <div class="shell">
+    <aside class="sidebar-panel">
+      <div class="brand" style="margin-bottom: 2rem">
+        <div class="brand-mark">MI</div>
+        <div>
+          <h1>MarkIn</h1>
+          <p class="tagline">Student Portal</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 2rem">
+        <h3>My Profile</h3>
+        <div style="
+              margin-top: 1rem;
+              display: grid;
+              gap: 0.5rem;
+              font-size: 0.9rem;
+            ">
+          <div><strong>ID:</strong> <span data-profile-id>–</span></div>
+          <div><strong>Name:</strong> <span data-profile-name>–</span></div>
+          <div>
+            <strong>Roll No:</strong> <span data-profile-roll>–</span>
+          </div>
+          <div>
+            <strong>Stream:</strong> <span data-profile-stream>–</span>
+          </div>
+          <div>
+            <strong>Division:</strong> <span data-profile-division>–</span>
+          </div>
+          <div>
+            <strong>Year:</strong> <span data-profile-year>–</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content-panel layout-grid" style="gap: 1.5rem">
+      <header class="header" style="padding: 0">
+        <div>
+          <h2 data-student-header>Student Dashboard</h2>
+
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap">
+          <button class="btn ghost" data-refresh>Refresh</button>
+          <a href="#" class="btn ghost" data-signout>Sign out</a>
+        </div>
+      </header>
+
+      <section class="layout-grid four" data-summary>
+        <div class="card" style="cursor: pointer" data-show-total-sessions>
+          <div class="stat">
+            <span class="stat-label">Total Sessions</span>
+            <span class="stat-value" data-summary-sessions>0</span>
+          </div>
+        </div>
+        <div class="card" style="cursor: pointer" data-show-present-sessions>
+          <div class="stat">
+            <span class="stat-label">Present</span>
+            <span class="stat-value" data-summary-present>0</span>
+          </div>
+        </div>
+        <div class="card" style="cursor: pointer" data-show-absent-sessions>
+          <div class="stat">
+            <span class="stat-label">Absent</span>
+            <span class="stat-value" data-summary-absent>0</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stat">
+            <span class="stat-label">Attendance %</span>
+            <span class="stat-value" data-summary-percentage>0%</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="layout-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));"
+        data-subjects-section>
+        <!-- Subject cards will be populated by JavaScript -->
+      </section>
+
+      <section class="card">
+        <h3>Attendance Overview</h3>
+        <div style="margin-top: 1.5rem">
+          <div style="
+                margin-bottom: 0.75rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+              ">
+            <span style="font-size: 0.9rem; color: var(--color-muted)">Your Progress</span>
+            <span style="font-size: 0.9rem; font-weight: 600" data-progress-text>0%</span>
+          </div>
+          <div class="attendance-bar">
+            <span data-progress-bar style="width: 0%"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Attendance Calendar</h3>
+        <p class="tagline" style="margin-top: 0.5rem">
+          Your attendance over time
+        </p>
+        <div style="margin-top: 1.5rem">
+          <!-- Calendar Navigation -->
+          <div class="calendar-navigation">
+            <button class="calendar-nav-btn" data-calendar-prev-btn>
+              &larr; Previous
+            </button>
+            <div class="calendar-month-display">
+              <span data-calendar-month-display>Loading...</span>
+              <select class="calendar-year-selector" data-calendar-year-selector>
+                <!-- Years will be populated by JavaScript -->
+              </select>
+            </div>
+            <button class="calendar-nav-btn" data-calendar-next-btn>
+              Next &rarr;
+            </button>
+          </div>
+
+          <!-- Calendar Grid -->
+          <div class="calendar-container" data-calendar-container>
+            <div style="
+                  text-align: center;
+                  padding: 2rem;
+                  color: var(--color-muted);
+                ">
+              Loading calendar...
+            </div>
+          </div>
+
+          <!-- Calendar Legend -->
+          <div class="calendar-legend" style="
+                margin-top: 0.75rem;
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                font-size: 0.8rem;
+              ">
+            <span style="color: var(--color-muted)">Less</span>
+            <div style="display: flex; gap: 3px; align-items: center">
+              <div class="calendar-day"
+                style="background-color: var(--color-border); width: 14px; height: 14px; min-height: unset;"></div>
+              <div class="calendar-day"
+                style="background-color: #ff4444; width: 14px; height: 14px; min-height: unset;"></div>
+              <div class="calendar-day"
+                style="background-color: #9be9a8; width: 14px; height: 14px; min-height: unset;"></div>
+              <div class="calendar-day"
+                style="background-color: #40c463; width: 14px; height: 14px; min-height: unset;"></div>
+              <div class="calendar-day"
+                style="background-color: #30a14e; width: 14px; height: 14px; min-height: unset;"></div>
+              <div class="calendar-day"
+                style="background-color: #216e39; width: 14px; height: 14px; min-height: unset;"></div>
+            </div>
+            <span style="color: var(--color-muted)">More</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Recent Attendance</h3>
+        <div class="table-wrapper" style="margin-top: 1rem">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Subject</th>
+                <th>Year</th>
+                <th>Stream</th>
+                <th>Division</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody data-attendance-body>
+              <tr>
+                <td colspan="6">No attendance records yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Monthly Summary</h3>
+        <div class="table-wrapper" style="margin-top: 1rem">
+          <table>
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Year</th>
+                <th>Stream</th>
+                <th>Division</th>
+                <th>Sessions</th>
+                <th>Present</th>
+                <th>Absent</th>
+                <th>%</th>
+              </tr>
+            </thead>
+            <tbody data-monthly-body>
+              <tr>
+                <td colspan="8">No data available.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Total Sessions Modal -->
+  <dialog data-total-sessions-modal>
+    <div class="card" style="width: min(800px, 95vw)">
+      <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+          ">
+        <h3>All Sessions</h3>
+        <button class="btn ghost" data-close-total-sessions>✕</button>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Session</th>
+              <th>Details</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody data-total-sessions-list>
+            <tr>
+              <td colspan="3" style="text-align: center; padding: 2rem">
+                Loading...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Present Sessions Modal -->
+  <dialog data-present-sessions-modal>
+    <div class="card" style="width: min(800px, 95vw)">
+      <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+          ">
+        <h3>Sessions You Attended</h3>
+        <button class="btn ghost" data-close-present-sessions>✕</button>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Session</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody data-present-sessions-list>
+            <tr>
+              <td colspan="2" style="text-align: center; padding: 2rem">
+                Loading...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Absent Sessions Modal -->
+  <dialog data-absent-sessions-modal>
+    <div class="card" style="width: min(800px, 95vw)">
+      <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+          ">
+        <h3>Sessions You Missed</h3>
+        <button class="btn ghost" data-close-absent-sessions>✕</button>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Session</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody data-absent-sessions-list>
+            <tr>
+              <td colspan="2" style="text-align: center; padding: 2rem">
+                Loading...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog data-subject-detail-modal style="
+        border: none;
+        border-radius: 16px;
+        padding: 2rem;
+        width: min(450px, 90vw);
+      ">
+    <div class="layout-grid" style="gap: 1.5rem">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3 data-subject-modal-title>Subject Details</h3>
+        <button type="button" class="btn ghost" data-close-subject-detail style="padding: 0.5rem;">✕</button>
+      </div>
+
+      <div style="
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 1rem;
+              padding: 1rem;
+              background: #f8f9fa;
+              border-radius: 8px;
+            ">
+        <div style="text-align: center;">
+          <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.25rem;">Total Sessions</div>
+          <div style="font-size: 1.5rem; font-weight: 600; color: #3498db;" data-modal-total>0</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.25rem;">Present</div>
+          <div style="font-size: 1.5rem; font-weight: 600; color: #27ae60;" data-modal-present>0</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.25rem;">Absent</div>
+          <div style="font-size: 1.5rem; font-weight: 600; color: #e74c3c;" data-modal-absent>0</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; padding: 1rem; background: #e8f5e9; border-radius: 8px;">
+        <div style="font-size: 0.875rem; color: #666; margin-bottom: 0.25rem;">Attendance Percentage</div>
+        <div style="font-size: 2rem; font-weight: 600; color: #27ae60;" data-modal-percentage>0%</div>
+      </div>
+
+      <menu style="display: flex; gap: 0.75rem; justify-content: flex-end; margin: 0;">
+        <button type="button" class="btn" data-close-subject-detail>
+          Close
+        </button>
+      </menu>
+    </div>
+  </dialog>
+
+  <div class="toast-stack" data-toast-stack></div>
+  <script type="module" src="/js/student.js"></script>
+</body>
+
+</html>

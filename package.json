@@ -1,0 +1,37 @@
+{
+  "name": "acadmark-smart-attendance",
+  "version": "1.0.0",
+  "description": "AcadMark – Smart Attendance System built with Express and MongoDB Atlas",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "check-env": "node check-env.js",
+    "test": "node --test tests/e2e_real_world_flow.test.js",
+    "test:e2e": "node --test tests/e2e_real_world_flow.test.js"
+  },
+  "keywords": [
+    "attendance",
+    "express",
+    "mongoose",
+    "nodejs",
+    "college"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "mongoose": "^8.8.4",
+    "multer": "^1.4.5-lts.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "node-fetch": "^3.3.2",
+    "nodemon": "^3.1.4",
+    "supertest": "^7.1.1"
+  }
+}
