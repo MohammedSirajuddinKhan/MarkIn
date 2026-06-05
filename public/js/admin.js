@@ -183,6 +183,8 @@ window.addEventListener("DOMContentLoaded", () => {
         } else if (key === "subjects") {
           // Display count of unique subjects
           stat.textContent = `${data.subjects?.length || 0}`;
+        } else if (key === "current-sessions") {
+          stat.textContent = `${data.currentSessions ?? 0}`;
         } else {
           stat.textContent = data[key] ?? 0;
           console.log(`📊 Setting ${key} stat to:`, data[key] ?? 0);

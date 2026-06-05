@@ -36,7 +36,8 @@ const TEMPLATE_TYPE_TEACHERS = "teachers";
 const ALPHANUMERIC_ONLY = /^[A-Za-z0-9]+$/;
 const ALPHANUMERIC_WITH_SPACES = /^[A-Za-z0-9 ]+$/;
 const ALPHANUMERIC_WITH_SPACES_AND_COMMAS = /^[A-Za-z0-9, ]+$/;
-const LETTERS_WITH_SPACES = /^[A-Za-z\s.\-']+$/;
+const NAME_WITH_COMMON_SYMBOLS = /^[A-Za-z0-9\s._\-'/]+$/;
+const SUBJECT_WITH_COMMON_SYMBOLS = /^[A-Za-z0-9\s._\-'/&]+$/;
 const DIGITS_ONLY = /^\d+$/;
 
 function normalizeTemplateType(type) {
@@ -88,8 +89,8 @@ function validateStudentRow(row = {}) {
   }
   if (hasSpecialCharacters(student.studentId, ALPHANUMERIC_ONLY))
     return "Student ID must contain only letters and numbers.";
-  if (hasSpecialCharacters(student.studentName, LETTERS_WITH_SPACES))
-    return "Student name must contain only letters and spaces.";
+  if (hasSpecialCharacters(student.studentName, NAME_WITH_COMMON_SYMBOLS))
+    return "Student name contains invalid characters.";
   if (hasSpecialCharacters(student.rollNo, DIGITS_ONLY))
     return "Roll no must contain only digits.";
   if (hasSpecialCharacters(student.year, ALPHANUMERIC_WITH_SPACES))
@@ -116,10 +117,10 @@ function validateTeacherRow(row = {}) {
   }
   if (hasSpecialCharacters(teacher.teacherId, ALPHANUMERIC_ONLY))
     return "Teacher ID must contain only letters and numbers.";
-  if (hasSpecialCharacters(teacher.name, LETTERS_WITH_SPACES))
-    return "Teacher name must contain only letters and spaces.";
-  if (hasSpecialCharacters(teacher.subject, ALPHANUMERIC_WITH_SPACES))
-    return "Subject must contain only letters, numbers and spaces.";
+  if (hasSpecialCharacters(teacher.name, NAME_WITH_COMMON_SYMBOLS))
+    return "Teacher name contains invalid characters.";
+  if (hasSpecialCharacters(teacher.subject, SUBJECT_WITH_COMMON_SYMBOLS))
+    return "Subject contains invalid characters.";
   if (hasSpecialCharacters(teacher.year, ALPHANUMERIC_WITH_SPACES))
     return "Year must contain only letters, numbers and spaces.";
   if (hasSpecialCharacters(teacher.stream, ALPHANUMERIC_WITH_SPACES))

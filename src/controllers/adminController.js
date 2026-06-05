@@ -152,6 +152,8 @@ function serializeSession(session = {}) {
   const studentName = session.studentName || session.student_name || "";
   const studentId = session.studentId || session.student_id || "";
   const rollNo = session.rollNo || session.roll_no || "";
+  const startedAt = session.startedAt || session.started_at || null;
+  const endedAt = session.endedAt || session.ended_at || null;
 
   return {
     ...session,
@@ -165,6 +167,10 @@ function serializeSession(session = {}) {
     student_name: studentName,
     rollNo,
     roll_no: rollNo,
+    startedAt,
+    started_at: startedAt,
+    endedAt,
+    ended_at: endedAt,
   };
 }
 
@@ -969,21 +975,30 @@ export async function getAllDivisions(req, res, next) {
   try {
     const [studentDivisions, teacherDivisions] = await Promise.all([
       Student.distinct("division"),
-      Teacher.find({}).select("division").lean(),
+      Teacher.find({}).select("division name teacherId").lean(),
     ]);
 
-    const divisionCounts = new Map();
+    const divisionTeachers = new Map();
     studentDivisions.flatMap(splitDivisions).forEach((division) => {
-      divisionCounts.set(division, (divisionCounts.get(division) || 0) + 1);
+      if (!divisionTeachers.has(division)) {
+        divisionTeachers.set(division, new Set());
+      }
     });
-    teacherDivisions
-      .flatMap((teacher) => splitDivisions(teacher.division))
-      .forEach((division) => {
-        divisionCounts.set(division, (divisionCounts.get(division) || 0) + 1);
+    teacherDivisions.forEach((teacher) => {
+      const teacherLabel = teacher.name || teacher.teacherId || "Unknown";
+      splitDivisions(teacher.division).forEach((division) => {
+        if (!divisionTeachers.has(division)) {
+          divisionTeachers.set(division, new Set());
+        }
+        divisionTeachers.get(division).add(teacherLabel);
       });
+    });
 
-    const allDivisions = [...divisionCounts.entries()]
-      .map(([division, teachers]) => ({ division, teachers }))
+    const allDivisions = [...divisionTeachers.entries()]
+      .map(([division, teachers]) => ({
+        division,
+        teachers: [...teachers].sort().join(", "),
+      }))
       .sort((a, b) => a.division.localeCompare(b.division));
     return res.json({ divisions: allDivisions, allDivisions });
   } catch (error) {
@@ -1060,15 +1075,21 @@ export async function downloadAdminDefaulterHistoryEntry(req, res, next) {
 export async function searchStudent(req, res, next) {
   try {
     const query = String(req.params.studentId || "").trim();
-    const students = await Student.find({
-      $or: [
-        { studentId: new RegExp(query, "i") },
-        { studentName: new RegExp(query, "i") },
-      ],
-    })
-      .limit(20)
-      .lean();
-    return res.json({ students });
+    const students = (
+      await Student.find({
+        $or: [
+          { studentId: new RegExp(query, "i") },
+          { studentName: new RegExp(query, "i") },
+          { rollNo: new RegExp(query, "i") },
+          { year: new RegExp(query, "i") },
+          { stream: new RegExp(query, "i") },
+          { division: new RegExp(query, "i") },
+        ],
+      })
+        .limit(20)
+        .lean()
+    ).map(serializeStudent);
+    return res.json({ success: true, data: students, students });
   } catch (error) {
     return next(error);
   }
@@ -1077,15 +1098,22 @@ export async function searchStudent(req, res, next) {
 export async function searchTeacher(req, res, next) {
   try {
     const query = String(req.params.teacherId || "").trim();
-    const teachers = await Teacher.find({
-      $or: [
-        { teacherId: new RegExp(query, "i") },
-        { name: new RegExp(query, "i") },
-      ],
-    })
-      .limit(20)
-      .lean();
-    return res.json({ teachers });
+    const teachers = (
+      await Teacher.find({
+        $or: [
+          { teacherId: new RegExp(query, "i") },
+          { name: new RegExp(query, "i") },
+          { subject: new RegExp(query, "i") },
+          { year: new RegExp(query, "i") },
+          { stream: new RegExp(query, "i") },
+          { semester: new RegExp(query, "i") },
+          { division: new RegExp(query, "i") },
+        ],
+      })
+        .limit(20)
+        .lean()
+    ).map(serializeTeacher);
+    return res.json({ success: true, data: teachers, teachers });
   } catch (error) {
     return next(error);
   }
