@@ -134,12 +134,15 @@ function serializeStudent(student = {}) {
 }
 
 function serializeTeacher(teacher = {}) {
+  const teacherName =
+    teacher.teacherName || teacher.teacher_name || teacher.name || "";
   return {
     ...teacher,
     teacherId: teacher.teacherId || teacher.teacher_id || "",
     teacher_id: teacher.teacher_id || teacher.teacherId || "",
-    name: teacher.name || teacher.teacher_name || "",
-    teacher_name: teacher.teacher_name || teacher.name || "",
+    name: teacher.name || teacherName || "",
+    teacher_name: teacher.teacher_name || teacherName || "",
+    teacherName,
   };
 }
 
